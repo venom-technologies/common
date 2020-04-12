@@ -1,24 +1,41 @@
 let mongoose = require('mongoose');
+let baseSchema = require('../base-schema');
 
-
-var userSchema = new mongoose.Schema({
-    username: {
+let fields = {
+    phoneNumber: {
         type: String,
-        required: [true, "username is required"]
+        required: false
+    },
+    email : {
+        type : String,
+        required : true
     },
     password: {
         type: String,
         required: true
     },
-    number: {
-        type: Number
+    dateOfBirth : {
+        type : Date,
+        required : true
     },
-    email: {
-        type: String,
-        required: true
+    termsAndCondition : Boolean,
+    country : {
+        type :String,
+        enum : ["India", "USA", "UK"]
     },
-    createdDate: {
-        type: Date,
-        default: Date.now()
+    countryCode : {
+        type : Number
+    },
+    status : {
+        type : String,
+        enum : ["Active", "Inactive"]
+    },
+    channelCount : {
+        type : Number,
+        default : 0
     }
-})
+}
+baseSchema.addCommonFields(fields);
+var userSchema = new mongoose.Schema(fields);
+
+module.exports = userSchema
